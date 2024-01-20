@@ -1,0 +1,48 @@
+
+.one
+{
+  text-align: center;
+  font-size: 20px;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width:40%;  
+  float: left;  
+}
+
+.split {
+  position: fixed;
+  padding-top: 20px;
+}
+.leftControl
+{
+  left: 0;
+  width: 20%;
+}
+/* Control the left side */
+.left {
+  height: 400px;
+  overflow: auto;
+  
+}
+
+/* Control the right side */
+.right {
+  right: 0;
+  width: 80%;
+}
+
+.custom-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.custom-row{
+  height:50px;
+}
+.custom-cell {
+  width: 11.1%; /* Each cell takes approximately 11.1% of the table width */
+  border: 1px solid #ddd; /* Add a border for better visibility */
+  padding: 8px;
+  text-align: center;
+}
