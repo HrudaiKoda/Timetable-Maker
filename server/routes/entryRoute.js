@@ -79,10 +79,10 @@ router.delete('/:id',async (req,res) => {
 const uploadDestination = 'tmp/';
 
 // Ensure the upload destination folder exists
-if (!fs.existsSync(uploadDestination)) {
-    console.log(uploadDestination);
-  fs.mkdirSync(uploadDestination);
-}
+//if (!fs.existsSync(uploadDestination)) {
+//    console.log(uploadDestination);
+ // fs.mkdirSync(uploadDestination);
+//}
 const upload = multer({ dest: uploadDestination });
 
 // Endpoint for file upload and database insertion
