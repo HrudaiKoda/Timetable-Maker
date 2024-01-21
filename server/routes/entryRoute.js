@@ -76,7 +76,7 @@ router.delete('/:id',async (req,res) => {
 
 //const app = express();
 
-const uploadDestination = 'uploads/';
+const uploadDestination = 'tmp/';
 
 // Ensure the upload destination folder exists
 if (!fs.existsSync(uploadDestination)) {
