@@ -58,7 +58,7 @@ const BookList = () => {
       formData.append('file', file);
 
       // Make a POST request to your upload endpoint
-      const response = await fetch('http://timetable-maker-api.vercel.app/entrys/upload', {
+      const response = await fetch('https://timetable-maker-api.vercel.app/entrys/upload', {
         method: 'POST',
         body: formData,
       });
@@ -83,7 +83,7 @@ const BookList = () => {
 
   useEffect(() => {
     // Fetch data from the Node.js API
-    fetch('http://timetable-maker-api.vercel.app/entrys')
+    fetch('https://timetable-maker-api.vercel.app/entrys')
       .then(response => response.json())
       .then(data => {
         data = data.map(obj => ({ ...obj, disabled: 0 }));
