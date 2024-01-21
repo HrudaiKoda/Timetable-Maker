@@ -28,7 +28,7 @@
 }
 /* Control the left side */
 .left {
-  height: 770px;
+ height: 100vh;
   overflow: auto;
   
  
