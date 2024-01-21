@@ -32,9 +32,10 @@ try {
 }
 });
 
+
 router.get('/',async (req,res) => {
 try{
-const entrys = await Entry.find({});
+const entrys = await Entry.find({isUsed: true});
 return res.status(200).json(entrys);
 } catch (error) {
 console.log(error.message);
@@ -93,9 +94,7 @@ router.post('/upload', upload.single('file'), async (req, res) => {
     
     const listOfJsonObjects = [];
     const regexPattern = /^[A-Za-z]{2}\d{4}$/;
-    // Loop through the list of lists
     for (const innerList of entries) {
-    // Create a JSON object with keys and values from the inner list
   
 
     if (regexPattern.test(innerList[1]) && innerList[4]) {
