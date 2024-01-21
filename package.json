@@ -1,5 +1,5 @@
 {
-  "homepage":"https://HrudaiKoda.github.io/Timetable-Maker",
+
   "name": "Know your class",
   "version": "1.0.0",
   "description": "",
@@ -9,7 +9,6 @@
     "start": "node server/index.js",
     "dev": "nodemon server/index.js"
   },
-  "proxy": "http://localhost:3001",
   "keywords": [],
   "author": "",
   "license": "ISC",
