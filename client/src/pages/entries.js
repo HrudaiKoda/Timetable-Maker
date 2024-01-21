@@ -12,6 +12,15 @@ const BookList = () => {
     ['Fri', '', '', '', '', '', '', '', ''],
   ];
 
+  const initialValSlots = [
+    ['','', '', '', '', '', '', '', '' ],
+    ['', '', '', '', '', '', '', '', ''],
+    ['', '', '', '', '', '', '', '', ''],
+    ['', '', '', '', '', '', '', '', ''],
+    ['', '', '', '', '', '', '', '', ''],
+    ['', '', '', '', '', '', '', '', ''],
+  ];
+
   var Index = {};
   Index['A'] = [[1,1],[2,5],[4,4],[5,3]];
   Index['B'] = [[1,2],[2,1],[3,5],[5,4]];
@@ -24,18 +33,19 @@ const BookList = () => {
   Index['J'] = [[1,8],[3,6],[4,7]];
 
   const [val, setVal] = useState(initialVal);
+  const [Slotval, SlotsetVal] = useState(initialValSlots);
   const handleChange = (event,param1,param2) => {
     const { name, checked} = event.target;
     var changeValue = 0;
     if(checked)
     {
       changeValue = 1;
-      handleElementChange(name,param1);
+      handleElementChange(name,param1,param1);
     }
     else
     {
 
-      handleElementChange('',param1);
+      handleElementChange('',param1,'');
     }
     books.forEach(item => {
       if(item.slot === param1 && item._id !== param2)
@@ -71,14 +81,18 @@ const BookList = () => {
   };
 
     // Function to handle the change of an element in the stateArray
-    const handleElementChange = (value, slot) => {
+    const handleElementChange = (value, slot,slotVal) => {
       var indices = Index[slot];
       const newVal = [...val];
+      const newSlotVal = [...Slotval]
       for (let i = 0; i < indices.length; i++) {
         newVal[indices[i][0]][indices[i][1]] = value;
+        newSlotVal[indices[i][0]][indices[i][1]] = slotVal;
+
       }
       // Set the updated array as the new state
       setVal(newVal);
+      SlotsetVal(newSlotVal);
     };
 
   useEffect(() => {
@@ -98,22 +112,25 @@ const BookList = () => {
 
 <div>
 
-    <div className="split leftControl">
+    <div className="split leftControl shadow p-3 mb-5 bg-white rounded">
       <h1>Timetable</h1>
-      <div>
+      <div >
       <label htmlFor="stream">Choose a stream : </label>
-
+<span className='backFont'>
 <select name="stream" id="stream">
 <option value="cse">CSE</option>
 <option value="ee">EE</option>
 <option value="mech">Mechanical</option>
 </select>
+</span>
+
       </div>
 
     
       <form>
-      <input type="file" onChange={handleFileChange} />
-      <button onClick={handleUpload}>Upload</button>
+      <input type="file" name="myFile" onChange={handleFileChange}/>
+      
+      <button onClick={handleUpload} className='backFont' >Upload</button>
       </form>
       <div className='left'>
   {books.map(book => (
@@ -129,7 +146,7 @@ const BookList = () => {
         
         
       />
-      <label htmlFor={book.code}> {book.code} : Slot {book.slot} </label><br />
+      <label htmlFor={book.code}> { book.code} : Slot {book.slot} </label><br />
     </div>
   ))}
 
@@ -137,17 +154,18 @@ const BookList = () => {
 </div>
         
     </div>
-    <div className="split right">
-      <h1>Timetable</h1>
-
+    <div className="split right ">
+      <br></br><br></br><br></br><br></br>
       <div>
       <table className="custom-table">
         <tbody>
           {val.map((row, rowIndex) => (
-            <tr className='custom-row' key={rowIndex}>
+            <tr className='custom-row' key={rowIndex} >
               {row.map((value, colIndex) => (
                 <td className="custom-cell" key={colIndex}>
-                 {value}
+                 {Slotval[rowIndex][colIndex]} {(rowIndex === 0 || colIndex === 0) ? <span></span> : <br/>}
+                 {value} 
+                 
                 </td>
               ))}
             </tr>
