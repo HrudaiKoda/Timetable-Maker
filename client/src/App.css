@@ -87,7 +87,7 @@
 }
 
 .f {
-  background-color: #FAF0E6;
+  background-color: #B0C4DE
 }
 
 .g {
@@ -95,9 +95,27 @@
 }
 
 .h {
-  background-color: #F8F8FF;
+  background-color: #E6E6FA
 }
 
+.i{
+  background-color:#FAEBD7;
+}
+
+
+.j{
+
+  background-color: #ddeba2;
+}
+
+.k{
+  background-color: #FAF0E6;
+  
+}
+
+.l{
+  background-color:  #FFA500;
+}
 .dummy{
   background-color: #e0e0e2;
 }
