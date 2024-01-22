@@ -236,7 +236,23 @@ const BookList = () => {
 
     <div className="split leftControl shadow p-3 mb-5 bg-white rounded">
       <h1>Timetable</h1>
+      <div >
+      <label htmlFor="stream">Choose a stream : </label>
+<span className='backFont'>
+<select name="stream" id="stream">
+<option value="cse">CSE</option>
+<option value="ee">EE</option>
+<option value="mech">Mechanical</option>
+</select>
+</span>
 
+      </div>
+    
+      <form>
+      <input type="file" id="myFiles1" name="myFile" onChange={handleFileChange}/>
+   
+      <button onClick={handleUpload} className='backFont' >Upload</button>
+      </form>
       <div className='left'>
   {books.map(book => (
     <div key={book._id}>
