@@ -133,12 +133,7 @@ const BookList = () => {
       if((item.slot[0] === param1[0] || clashSlots.includes(item.slot[0]) ) && item._id !== param2)
       {item.disabled = changeValue;} // Change the 'name' property to uppercase
     });
-    setCheckedState((prevState) => ({
-      ...prevState,
-      [name]: checked,
-    }));
-  };
-  if(changeValue === 0)
+    if(changeValue === 0)
     {
       var decision = [];
       for(var i = 0; i < clashSlots.length ; i++)
@@ -164,6 +159,12 @@ const BookList = () => {
       });
 
     }
+    setCheckedState((prevState) => ({
+      ...prevState,
+      [name]: checked,
+    }));
+  };
+  
   const [file, setFile] = useState(null);
   
   const handleFileChange = (e) => {
