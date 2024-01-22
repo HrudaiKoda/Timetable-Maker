@@ -138,6 +138,32 @@ const BookList = () => {
       [name]: checked,
     }));
   };
+  if(changeValue === 0)
+    {
+      var decision = [];
+      for(var i = 0; i < clashSlots.length ; i++)
+      {
+        var temp = 0;
+        var indexes = Index[clashSlots[i]];
+        for(var i1 = 0; i1 < indexes.length ; i1++)
+        {
+          if(colorsVal[indexes[i1][0]][indexes[i1][1]] !== -1)
+          {
+            temp = 1;
+            break;
+          }
+        }
+        decision.push(temp);
+      
+      }
+      books.forEach(item => {
+        if((clashSlots.includes(item.slot[0]) ) && item._id !== param2)
+        {
+          item.disabled = decision[clashSlots.indexOf(item.slot[0])];
+        }
+      });
+
+    }
   const [file, setFile] = useState(null);
   
   const handleFileChange = (e) => {
