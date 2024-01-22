@@ -21,6 +21,19 @@ const BookList = () => {
     ['', '', '', '', '', '', '', '', ''],
   ];
 
+  const colors = [
+    [-1, -1, -1, -1, -1, -1, -1, -1, -1],
+    [-1, -1, -1, -1, -1, -1, -1, -1, -1],
+    [-1, -1, -1, -1, -1, -1, -1, -1, -1],
+    [-1, -1, -1, -1, -1, -1, -1, -1, -1],
+    [-1, -1, -1, -1, -1, -1, -1, -1, -1],
+    [-1, -1, -1, -1, -1, -1, -1, -1, -1],
+  ];
+
+  const used1 = new Set();
+  const Unused1 = [];
+  var colorMapper1 = {};
+
   var Index = {};
   Index['A'] = [[1,1],[2,5],[4,4],[5,3]];
   Index['B'] = [[1,2],[2,1],[3,5],[5,4]];
@@ -32,20 +45,36 @@ const BookList = () => {
   Index['H'] = [[1,6],[2,7],[4,8]];
   Index['J'] = [[1,8],[3,6],[4,7]];
 
+  var colorTable={};
+  colorTable[0] = "a";
+  colorTable[1] = "b";
+  colorTable[2] = "c";
+  colorTable[3] = "d";
+  colorTable[4] = "e";
+  colorTable[5] = "f";
+  colorTable[6] = "g";
+  colorTable[7] = "h";
+
   const [val, setVal] = useState(initialVal);
   const [Slotval, SlotsetVal] = useState(initialValSlots);
+  const [colorsVal, colorsSetVal] = useState(colors);
+  var [colorCounter, SetcolorCounter] = useState(-1);
+
+  var[used,SetUsed] = useState(used1);
+  var[Unused,SetUnused] = useState(Unused1);
+  var[colorMapper,SetcolorMapper] = useState(colorMapper1);
   const handleChange = (event,param1,param2) => {
     const { name, checked} = event.target;
     var changeValue = 0;
     if(checked)
     {
       changeValue = 1;
-      handleElementChange(name,param1,param1);
+      handleElementChange(name,param1,param1,1);
     }
     else
     {
 
-      handleElementChange('',param1,'');
+      handleElementChange('',param1,'',-1);
     }
     books.forEach(item => {
       if(item.slot === param1 && item._id !== param2)
@@ -81,19 +110,60 @@ const BookList = () => {
   };
 
     // Function to handle the change of an element in the stateArray
-    const handleElementChange = (value, slot,slotVal) => {
+     const handleElementChange = (value, slot,slotVal,incr) => {
       var indices = Index[slot];
       const newVal = [...val];
       const newSlotVal = [...Slotval]
+      const newColors = [...colorsVal]
+      var newColorCounter = -1;
+
+      const usedArray = new Set(used)
+      const UnusedArray = [...Unused]
+      const colorMapperObj = {...colorMapper}
+      const thiscolor = colorCounter;
+      if(incr === 1)
+      {
+        if(UnusedArray.length === 0)
+        {
+          usedArray.add(thiscolor + incr);
+          newColorCounter = thiscolor + 1;
+          SetcolorCounter(newColorCounter);
+          colorMapperObj[slot] = newColorCounter;
+        }
+        else
+        {
+          newColorCounter = UnusedArray[0];
+          colorMapperObj[slot] = newColorCounter;
+          usedArray.add(newColorCounter);
+          UnusedArray.shift();
+        }
+        
+      }
+      else
+      {
+        UnusedArray.push(colorMapper[slot]);
+        usedArray.delete(colorMapper[slot]);
+      }
+      console.log(usedArray);
+      console.log(UnusedArray);
+      console.log(newColorCounter,thiscolor);
       for (let i = 0; i < indices.length; i++) {
         newVal[indices[i][0]][indices[i][1]] = value;
         newSlotVal[indices[i][0]][indices[i][1]] = slotVal;
+        newColors[indices[i][0]][indices[i][1]] = newColorCounter;
+
 
       }
       // Set the updated array as the new state
       setVal(newVal);
       SlotsetVal(newSlotVal);
+      colorsSetVal(newColors);
+
+      SetUsed(usedArray);
+      SetUnused(UnusedArray);
+      SetcolorMapper(colorMapperObj);
     };
+
 
   useEffect(() => {
     // Fetch data from the Node.js API
@@ -128,8 +198,8 @@ const BookList = () => {
 
     
       <form>
-      <input type="file" name="myFile" onChange={handleFileChange}/>
-      
+      <input type="file" id="myFiles1" name="myFile" onChange={handleFileChange}/>
+   
       <button onClick={handleUpload} className='backFont' >Upload</button>
       </form>
       <div className='left'>
@@ -162,9 +232,10 @@ const BookList = () => {
           {val.map((row, rowIndex) => (
             <tr className='custom-row' key={rowIndex} >
               {row.map((value, colIndex) => (
-                <td className="custom-cell" key={colIndex}>
+                <td className={`custom-cell ${colorsVal[rowIndex][colIndex] !== -1 ? colorTable[colorsVal[rowIndex][colIndex]] : "dummy"}`}key={colIndex}>
                  {Slotval[rowIndex][colIndex]} {(rowIndex === 0 || colIndex === 0) ? <span></span> : <br/>}
-                 {value} 
+                 {value}
+
                  
                 </td>
               ))}
