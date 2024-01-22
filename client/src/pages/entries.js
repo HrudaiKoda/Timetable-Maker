@@ -165,29 +165,29 @@ const BookList = () => {
     }));
   };
   
-  const [file, setFile] = useState(null);
+  // const [file, setFile] = useState(null);
   
-  const handleFileChange = (e) => {
-    setFile(e.target.files[0]);
-  }
+  // const handleFileChange = (e) => {
+  //   setFile(e.target.files[0]);
+  // }
 
-  const handleUpload = async () => {
-    try {
-      const formData = new FormData();
-      formData.append('file', file);
+  // const handleUpload = async () => {
+  //   try {
+  //     const formData = new FormData();
+  //     formData.append('file', file);
 
-      // Make a POST request to your upload endpoint
-      const response = await fetch('https://mern-app-lf5e.onrender.com/entrys/upload', {
-        method: 'POST',
-        body: formData,
-      });
+  //     // Make a POST request to your upload endpoint
+  //     const response = await fetch('https://mern-app-lf5e.onrender.com/entrys/upload', {
+  //       method: 'POST',
+  //       body: formData,
+  //     });
 
-      const result = await response.json();
-      console.log(result);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  //     const result = await response.json();
+  //     console.log(result);
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
 
     // Function to handle the change of an element in the stateArray
    const handleElementChange = (value, slot,slotVal,incr) => {
@@ -263,23 +263,7 @@ const BookList = () => {
 
     <div className="split leftControl shadow p-3 mb-5 bg-white rounded">
       <h1>Timetable</h1>
-      <div >
-      <label htmlFor="stream">Choose a stream : </label>
-<span className='backFont'>
-<select name="stream" id="stream">
-<option value="cse">CSE</option>
-<option value="ee">EE</option>
-<option value="mech">Mechanical</option>
-</select>
-</span>
-
-      </div>
-    
-      <form>
-      <input type="file" id="myFiles1" name="myFile" onChange={handleFileChange}/>
-   
-      <button onClick={handleUpload} className='backFont' >Upload</button>
-      </form>
+     
       <div className='left'>
   {books.map(book => (
     <div key={book._id}>
