@@ -34,7 +34,7 @@ const BookList = () => {
   const Unused1 = [];
   var colorMapper1 = {};
 
-  var Index = {};
+   var Index = {};
   Index['A'] = [[1,1],[2,5],[4,4],[5,3]];
   Index['B'] = [[1,2],[2,1],[3,5],[5,4]];
   Index['C'] = [[1,3],[2,2],[3,1],[5,5]];
@@ -44,6 +44,17 @@ const BookList = () => {
   Index['G'] = [[1,5],[4,3],[5,2],[3,8]];
   Index['H'] = [[1,6],[2,7],[4,8]];
   Index['J'] = [[1,8],[3,6],[4,7]];
+  
+  Index['K'] = [[3,7],[5,6]];
+  Index['L'] = [[3,6],[4,7]];
+  Index['M'] = [[1,7],[2,6]];
+
+  Index['P'] = [[1,6],[1,7]];
+  Index['Q'] = [[2,6],[2,7]];
+  Index['R'] = [[3,6],[3,7]];
+  Index['S'] = [[4,6],[4,7]];
+  Index['T'] = [[5,6],[5,7]];
+
 
   var colorTable={};
   colorTable[0] = "a";
@@ -54,6 +65,34 @@ const BookList = () => {
   colorTable[5] = "f";
   colorTable[6] = "g";
   colorTable[7] = "h";
+  colorTable[8] = "i";
+  colorTable[9] = "j";
+  colorTable[10] = "k";
+  colorTable[11] = "l";
+
+  var slotClash = [
+    [0, 0, 0, 0, 0, 1, 1, 0, 0, 0],
+    [0, 0, 0, 0, 0, 1, 1, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 1, 1, 0],
+    [0, 0, 0, 0, 0, 0, 0, 1, 0, 1],
+    [0, 0, 0, 0, 0, 0, 0, 0, 1, 1],
+    [1, 1, 0, 0, 0, 0, 0, 0, 0, 0],
+    [1, 1, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 1, 1, 0, 0, 0, 0, 0, 0],
+    [0, 0, 1, 0, 1, 0, 0, 0, 0, 0],
+    [0, 0, 0, 1, 1, 0, 0, 0, 0, 0]
+  ];
+  var slotIndexMap = {};
+  slotIndexMap["P"] = 0;
+  slotIndexMap["Q"] = 1;
+  slotIndexMap["R"] = 2;
+  slotIndexMap["S"] = 3;
+  slotIndexMap["T"] = 4;
+  slotIndexMap["H"] = 5;
+  slotIndexMap["M"] = 6;
+  slotIndexMap["J"] = 7;
+  slotIndexMap["K"] = 8;
+  slotIndexMap["L"] = 9;
 
   const [val, setVal] = useState(initialVal);
   const [Slotval, SlotsetVal] = useState(initialValSlots);
@@ -76,8 +115,22 @@ const BookList = () => {
 
       handleElementChange('',param1,'',-1);
     }
+    
+    var clashSlots = [];
+    if (param1[0] in slotIndexMap) 
+    {
+      const keysArray = Object.keys(slotIndexMap);
+      for(var iter = 0; iter < 10; iter++)
+      {
+        if(slotClash[slotIndexMap[param1[0]]][iter] === 1)
+        {
+          clashSlots.push(keysArray[iter]);
+        }
+      }
+    }
+    
     books.forEach(item => {
-      if(item.slot === param1 && item._id !== param2)
+      if((item.slot[0] === param1[0] || clashSlots.includes(item.slot[0]) ) && item._id !== param2)
       {item.disabled = changeValue;} // Change the 'name' property to uppercase
     });
     setCheckedState((prevState) => ({
@@ -110,8 +163,8 @@ const BookList = () => {
   };
 
     // Function to handle the change of an element in the stateArray
-     const handleElementChange = (value, slot,slotVal,incr) => {
-      var indices = Index[slot];
+   const handleElementChange = (value, slot,slotVal,incr) => {
+      var indices = Index[slot[0]];
       const newVal = [...val];
       const newSlotVal = [...Slotval]
       const newColors = [...colorsVal]
@@ -128,12 +181,12 @@ const BookList = () => {
           usedArray.add(thiscolor + incr);
           newColorCounter = thiscolor + 1;
           SetcolorCounter(newColorCounter);
-          colorMapperObj[slot] = newColorCounter;
+          colorMapperObj[slot[0]] = newColorCounter;
         }
         else
         {
           newColorCounter = UnusedArray[0];
-          colorMapperObj[slot] = newColorCounter;
+          colorMapperObj[slot[0]] = newColorCounter;
           usedArray.add(newColorCounter);
           UnusedArray.shift();
         }
@@ -141,8 +194,8 @@ const BookList = () => {
       }
       else
       {
-        UnusedArray.push(colorMapper[slot]);
-        usedArray.delete(colorMapper[slot]);
+        UnusedArray.push(colorMapper[slot[0]]);
+        usedArray.delete(colorMapper[slot[0]]);
       }
       console.log(usedArray);
       console.log(UnusedArray);
@@ -151,7 +204,6 @@ const BookList = () => {
         newVal[indices[i][0]][indices[i][1]] = value;
         newSlotVal[indices[i][0]][indices[i][1]] = slotVal;
         newColors[indices[i][0]][indices[i][1]] = newColorCounter;
-
 
       }
       // Set the updated array as the new state
@@ -184,24 +236,24 @@ const BookList = () => {
 
     <div className="split leftControl shadow p-3 mb-5 bg-white rounded">
       <h1>Timetable</h1>
-      <div >
-      <label htmlFor="stream">Choose a stream : </label>
-<span className='backFont'>
-<select name="stream" id="stream">
-<option value="cse">CSE</option>
-<option value="ee">EE</option>
-<option value="mech">Mechanical</option>
-</select>
-</span>
+//       <div >
+//       <label htmlFor="stream">Choose a stream : </label>
+// <span className='backFont'>
+// <select name="stream" id="stream">
+// <option value="cse">CSE</option>
+// <option value="ee">EE</option>
+// <option value="mech">Mechanical</option>
+// </select>
+// </span>
 
-      </div>
+//       </div>
 
     
-      <form>
-      <input type="file" id="myFiles1" name="myFile" onChange={handleFileChange}/>
+//       <form>
+//       <input type="file" id="myFiles1" name="myFile" onChange={handleFileChange}/>
    
-      <button onClick={handleUpload} className='backFont' >Upload</button>
-      </form>
+//       <button onClick={handleUpload} className='backFont' >Upload</button>
+//       </form>
       <div className='left'>
   {books.map(book => (
     <div key={book._id}>
