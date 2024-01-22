@@ -103,7 +103,7 @@ router.post('/upload', upload.single('file'), async (req, res) => {
     {
         const jsonObject = {
             code: innerList[1],
-            name: "",
+            name: innerList[2],
             slot: str_array[i].trim(),
         };
         listOfJsonObjects.push(jsonObject);
