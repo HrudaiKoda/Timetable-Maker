@@ -96,21 +96,30 @@ router.post('/upload', upload.single('file'), async (req, res) => {
     const regexPattern = /^[A-Za-z]{2}\d{4}$/;
     for (const innerList of entries) {
   
-
     if (regexPattern.test(innerList[1]) && innerList[4]) {
     
-    const jsonObject = {
-        code: innerList[1],
-        name: innerList[2],
-        slot: innerList[4],
-    };
-    listOfJsonObjects.push(jsonObject);
+    var str_array = innerList[4].split(',');
+    for(var i = 0; i < str_array.length; i++)
+    {
+        const jsonObject = {
+            code: innerList[1],
+            name: "",
+            slot: str_array[i].trim(),
+        };
+        listOfJsonObjects.push(jsonObject);
+    }
+    
+    
     }
    
     }
+    var jsonInst = listOfJsonObjects.map(JSON.stringify);
+    var uniqueSet = new Set(jsonInst);
+    var uniqueArray = Array.from(uniqueSet).map(JSON.parse);
+      
     const result = await Entry.updateMany({}, { $set: { isUsed: false } });
 
-    await Entry.insertMany(listOfJsonObjects).then(function () {
+    await Entry.insertMany(uniqueArray).then(function () {
         console.log("Data inserted") // Success 
     }).catch(function (error) {
         console.log(error)     // Failure 
