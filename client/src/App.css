@@ -14,7 +14,7 @@
 .split {
   position: fixed;
   padding-top: 20px;
-  padding-left: 20px;
+  padding-left: 30px;
   
 
  
@@ -25,7 +25,7 @@
 .leftControl
 {
   left: 0;
-  width: 18%;
+  width: 20%;
   background-color: #424a4d;
   color: #f2f5f7;
   
@@ -79,11 +79,11 @@
 }
 
 .d {
-  background-color:  #FFDAB9;
+  background-color:  #f5c59e;
 }
 
 .e {
-  background-color: #E0FFFF;
+  background-color: #d2f1b8;
 }
 
 .f {
@@ -115,6 +115,27 @@
 
 .l{
   background-color:  #FFA500;
+}
+
+.footer {
+  
+
+  height: 80px;  
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  width: 80%;
+  background: rgb(241,217,216);
+background: linear-gradient(360deg, rgba(241,217,216,1) 0%, rgba(224,224,226,0.9) 100%);
+  color: white;
+  text-align: center;
+}
+.imageSpec
+{
+  
+  padding-right: 60px;
+  float: right;  
+  transform: scale(0.4);
 }
 .dummy{
   background-color: #e0e0e2;
