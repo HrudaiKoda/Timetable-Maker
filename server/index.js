@@ -4,7 +4,7 @@ import mongoose from 'mongoose';
 import { Entry } from './models/entriesModel.js';
 import entryRoute from './routes/entryRoute.js';
 import cors from 'cors';
-
+import cron from 'node-cron';
 import multer from 'multer';
 import path, { dirname } from 'path';
 const __dirname = path.resolve();
@@ -20,6 +20,20 @@ app.get('/', (req, res) => {
   res.json({ message: 'Hello from server!' });
 });
 
+app.get('/ping', (req, res) => {
+  res.status(200).send('Server is alive!');
+});
+
+cron.schedule('5 * * * * *', () => {
+  // Perform an HTTP request to your own server
+  // Use fetch instead of axios
+  fetch(`https://mern-app-lf5e.onrender.com/ping`)
+    .then(response => response.text())
+  
+    .catch(error => {
+      console.error('Ping failed:', error.message);
+    });
+});
 app.use('/entrys', entryRoute);
 
 
