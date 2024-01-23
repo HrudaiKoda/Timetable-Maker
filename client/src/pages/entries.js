@@ -1,5 +1,7 @@
 // src/BookList.js
 import React, { useState, useEffect } from 'react';
+
+import LogoImage from '../github-mark.svg';
 const BookList = () => {
   const [books, setBooks] = useState([]);
   const [checkedState, setCheckedState] = useState([]);
@@ -307,6 +309,9 @@ const BookList = () => {
       </table>
     </div>
     </div>
+             <div className="footer">
+    <a href="https://github.com/HrudaiKoda/Timetable-Maker" target="_blank" rel="noreferrer"><img src={LogoImage} className='imageSpec' alt="Github"/></a>
+</div>
     </div>
   );
 };
