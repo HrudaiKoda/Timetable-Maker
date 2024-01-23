@@ -25,7 +25,7 @@ app.get('/ping', (req, res) => {
   res.status(200).send('Server is alive!');
 });
 
-cron.schedule('10 * * * *', () => {
+cron.schedule('/10 * * * *', () => {
   // Perform an HTTP request to your own server
   // Use fetch instead of axios
   fetch(`https://mern-app-lf5e.onrender.com/ping`)
